@@ -41,7 +41,7 @@ const App = () => {
   }
 
 
-  const deleteBlog = async (blog)=> {
+  const deleteBlog = async ( blog ) => {
     console.log('delete')
     await blogService.deleteBlog(blog.id)
     setBlogs(blogs.filter(b => b.id !== blog.id))
@@ -51,7 +51,7 @@ const App = () => {
   const renderSortedBlogs = (blogs) => {
     blogs.sort((a, b) => b.likes - a.likes)
     // const registeredUser = user.username
-    return blogs.map(blog => <Blog key={blog.id} blogs={blogs} blog={blog} deleteBlog = {deleteBlog} registeredUser={user.username} 
+    return blogs.map(blog => <Blog key={blog.id} blogs={blogs} blog={blog} deleteBlog = {deleteBlog} registeredUser={user.username}
       setPopupMessage={setPopupMessage} />
     )
   }

@@ -1,8 +1,8 @@
-import Togglable from "./Togglable"
+import Togglable from  './Togglable'
 import blogService from '../services/blogs'
-import { useState } from "react"
+import { useState } from  'react'
 
-const Blog = ({ blog, registeredUser, setPopupMessage , deleteBlog}) => {
+const Blog = ({ blog, setPopupMessage , deleteBlog }) => {
   const [likesAmount, setLikesAmount] = useState(blog.likes)
 
 
@@ -25,22 +25,22 @@ const Blog = ({ blog, registeredUser, setPopupMessage , deleteBlog}) => {
       const res = await blogService.addLike(blogId)
       setLikesAmount(res.likes)
     } catch (exception) {
-      console.log('error updating blog post');
-      // setPopupMessage({
-      //   text: 'error updating blog post',
-      //   class: 'error'
-      // })
-      // setTimeout(() => {
-      //   setPopupMessage({
-      //     text: null,
-      //     class: ''
-      //   })
-      // }, 5000)
+      console.log('error updating blog post')
+      setPopupMessage({
+        text: 'error updating blog post',
+        class: 'error'
+      })
+      setTimeout(() => {
+        setPopupMessage({
+          text: null,
+          class: ''
+        })
+      }, 5000)
     }
   }
 
   const handleDelete = async (event) => {
-    console.log("Deleting blog")
+    console.log( 'Deleting blog ')
     event.preventDefault()
     if (window.confirm(`Remove Blog: ${blog.title} by ${blog.author}`)) {
       deleteBlog(blog)
@@ -50,7 +50,7 @@ const Blog = ({ blog, registeredUser, setPopupMessage , deleteBlog}) => {
   return (
     <div style={blogStyle}>
       {blog.title} by {blog.author}
-      <Togglable buttonLabel="view">
+      <Togglable buttonLabel= 'view '>
         <div>
           <span>url: </span>
           <a href={blog.url}>{blog.url}</a>
@@ -65,7 +65,7 @@ const Blog = ({ blog, registeredUser, setPopupMessage , deleteBlog}) => {
         <div>
           <span>author: </span>
           {blog.user !== undefined ? <span>{blog.user.username}</span> : <span>created by system</span>}
-          {<button type="delete" onClick={handleDelete}>delete</button>}
+          {<button type= 'delete ' onClick={handleDelete}>delete</button>}
         </div>
       </Togglable>
     </div>
