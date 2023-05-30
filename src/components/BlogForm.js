@@ -70,34 +70,34 @@ const BlogForm = ({ blogs, setBlogs, setPopupMessage, setShowBlogForm, user }) =
       <form onSubmit={addBlog}>
         <h1>Create new blog</h1>
         <input
-          type='  text'
-          name='  title'
+          type='text'
+          name='title'
           value={newBlog.title}
           onChange={handleBlogChange}
-          placeholder='  title'
+          placeholder='title'
         />
         <input
-          type='  text'
-          name='  author'
+          type='text'
+          name='author'
           value={newBlog.author}
           onChange={handleBlogChange}
-          placeholder='  author'
+          placeholder='author'
         />
         <input
-          type='  url'
-          name='  url'
+          type='url'
+          name='url'
           value={newBlog.url}
           onChange={handleBlogChange}
-          placeholder='  url'
+          placeholder='url'
         />
         <input
           type='  number'
           name='  likes'
           value={newBlog.likes}
           onChange={handleBlogChange}
-          placeholder='  likes'
+          placeholder='likes'
         />
-        <button type='  submit'  >create</button>
+        <button type='submit'  >create</button>
         <button onClick={() => setShowBlogForm(false)}>cancel</button>
       </form>
     </div>
