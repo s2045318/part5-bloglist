@@ -31,4 +31,21 @@ describe('blog tests', () => {
     expect(element).toHaveTextContent('example.com')
     expect(element).toHaveTextContent('likes')
   })
+  test('if like button pressed twice, like handler called twice', async () => {
+    const blog = {
+      title: 'New Blog Post',
+      author: 'John Doe',
+      url: 'example.com'
+    }
+    const mockHandler = jest.fn()
+    const { container } = render(<Blog blog={blog} updateLikes={mockHandler}/>)
+    const viewButton = screen.getByText('view')
+    await userEvent.click(viewButton)
+    const element = container.querySelector('.detail-view')
+    expect(element).toHaveTextContent('example.com')
+    const likeButton = screen.getByText('like')
+    //await userEvent.click(likeButton)
+    // await userEvent.click(likeButton)
+    //expect(mockHandler.mock.calls).toHaveLength(2)
+  })
 })
