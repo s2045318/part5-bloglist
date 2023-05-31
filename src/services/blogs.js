@@ -23,20 +23,12 @@ const create = async newObject => {
 }
 
 const addLike = async (blogId) => {
-  try {
-    const response = await axios.get(`${blogId}`)
-    const currentLikes = response.data.likes
-
-    const newLikes = currentLikes + 1
-    const updateResponse = await axios.put(`${blogId}`, { likes: newLikes })
-
-    console.log('blog post likes updated:', updateResponse.data)
-
-    return updateResponse.data
-
-  } catch (error) {
-    console.error('error updating blog post likes:', error)
-  }
+  const response = await axios.get(`${ baseUrl }/${blogId}`)
+  console.log(response.data)
+  const currentLikes = response.data.likes
+  console.log(currentLikes)
+  const request = axios.put(`${ baseUrl }/${blogId}`, { likes :currentLikes + 1 })
+  return request.then(response => response.data)
 }
 
 const deleteBlog = async (blogId) => {

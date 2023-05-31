@@ -91,8 +91,8 @@ const BlogForm = ({ blogs, setBlogs, setPopupMessage, setShowBlogForm, user }) =
           placeholder='url'
         />
         <input
-          type='  number'
-          name='  likes'
+          type='number'
+          name='likes'
           value={newBlog.likes}
           onChange={handleBlogChange}
           placeholder='likes'

@@ -20,9 +20,9 @@ const Blog = ({ blog, setPopupMessage , deleteBlog }) => {
     margin: 10
   }
 
-  const handleLike = async (blogId) => {
+  const handleLike = async () => {
     try {
-      const res = await blogService.addLike(blogId)
+      const res = await blogService.addLike(blog.id)
       setLikesAmount(res.likes)
     } catch (exception) {
       console.log('error updating blog post')
@@ -49,25 +49,29 @@ const Blog = ({ blog, setPopupMessage , deleteBlog }) => {
 
   return (
     <div style={blogStyle}>
-      {blog.title} by {blog.author}
-      <Togglable buttonLabel= 'view '>
-        <div>
-          <span>url: </span>
-          <a href={blog.url}>{blog.url}</a>
-        </div>
-        <div>
-          <span>likes: </span>
-          <span style={spanStyle}>{likesAmount}</span>
-          <span>
-            <button onClick={() => handleLike(blog.id)}>like</button>
-          </span>
-        </div>
-        <div>
-          <span>author: </span>
-          {blog.user !== undefined ? <span>{blog.user.username}</span> : <span>created by system</span>}
-          {<button type= 'delete ' onClick={handleDelete}>delete</button>}
-        </div>
-      </Togglable>
+      <div className='default-view'>
+        {blog.title} by {blog.author}
+      </div>
+      <div className='detail-view'>
+        <Togglable buttonLabel= 'view '>
+          <div>
+            <span>url: </span>
+            <a href={blog.url}>{blog.url}</a>
+          </div>
+          <div>
+            <span>likes: </span>
+            <span style={spanStyle}>{likesAmount}</span>
+            <span>
+              <button onClick={handleLike}>like</button>
+            </span>
+          </div>
+          <div>
+            <span>author: </span>
+            {blog.user !== undefined ? <span>{blog.user.username}</span> : <span>created by system</span>}
+            {<button type= 'delete ' onClick={handleDelete}>delete</button>}
+          </div>
+        </Togglable>
+      </div>
     </div>
   )
 }
