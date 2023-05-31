@@ -5,29 +5,30 @@ import userEvent from '@testing-library/user-event'
 import Blog from './Blog'
 
 describe('blog tests', () => {
-  test('renders by default title and author', () => {
+  test('component displaying a blog renders the blogs title and author', () => {
     const blog = {
-      title: 'I hate christmas',
-      author: 'The Grinch',
-      url: 'url'
+      title: 'New Blog Post',
+      author: 'John Doe',
+      url: 'example.com'
     }
     const { container } = render(<Blog blog={blog}/>)
     const element = container.querySelector('.default-view')
-    expect(element).toHaveTextContent('I hate christmas')
-    expect(element).toHaveTextContent('The Grinch')
-    expect(element).not.toHaveTextContent('url')
+    expect(element).toHaveTextContent('New Blog Post')
+    expect(element).toHaveTextContent('John Doe')
+    expect(element).not.toHaveTextContent('example.com')
   })
-  test('renders with click default likes and url and likes', async () => {
+
+  test('does not render its URL or number of likes by default', async () => {
     const blog = {
-      title: ' I hate christmas ',
-      author: 'The Grinch',
-      url: 'url'
+      title: 'Exciting News',
+      author: 'Jane Smith',
+      url: 'example.com'
     }
     const { container } = render(<Blog blog={blog}/>)
     const button = screen.getByText('view')
     await userEvent.click(button)
     const element = container.querySelector('.detail-view')
-    expect(element).toHaveTextContent('url')
+    expect(element).toHaveTextContent('example.com')
     expect(element).toHaveTextContent('likes')
   })
 })
