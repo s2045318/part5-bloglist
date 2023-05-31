@@ -1,9 +1,9 @@
+import PropTypes from 'prop-types'
 import loginService from '../services/login'
 
 const LoginForm = ({ username, setUsername, password, setPassword, setUser, setPopupMessage }) => {
   const handleLogin = async (event) => {
     event.preventDefault()
-
     try {
       const user = await loginService.login({
         username, password,
@@ -53,5 +53,11 @@ const LoginForm = ({ username, setUsername, password, setPassword, setUser, setP
     </form>
   )
 }
-
+LoginForm.propTypes = {
+  handleLogin: PropTypes.func.isRequired,
+  setUsername: PropTypes.func.isRequired,
+  setPassword: PropTypes.func.isRequired,
+  username: PropTypes.string.isRequired,
+  password: PropTypes.string.isRequired
+}
 export default LoginForm
