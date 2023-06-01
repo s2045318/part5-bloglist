@@ -14,6 +14,7 @@ const getAll = async () => {
 }
 
 const create = async newObject => {
+  console.log(token)
   const config = {
     headers: { Authorization: token },
   }

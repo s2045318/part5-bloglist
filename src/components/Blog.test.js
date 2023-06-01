@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import userEvent from '@testing-library/user-event'
 import Blog from './Blog'
+import App from '../App'
 
 describe('blog tests', () => {
   test('component displaying a blog renders the blogs title and author', () => {
@@ -31,21 +32,29 @@ describe('blog tests', () => {
     expect(element).toHaveTextContent('example.com')
     expect(element).toHaveTextContent('likes')
   })
-  test('if like button pressed twice, like handler called twice', async () => {
-    const blog = {
-      title: 'New Blog Post',
-      author: 'John Doe',
-      url: 'example.com'
-    }
-    const mockHandler = jest.fn()
-    const { container } = render(<Blog blog={blog} updateLikes={mockHandler}/>)
-    const viewButton = screen.getByText('view')
-    await userEvent.click(viewButton)
-    const element = container.querySelector('.detail-view')
-    expect(element).toHaveTextContent('example.com')
-    const likeButton = screen.getByText('like')
-    //await userEvent.click(likeButton)
-    // await userEvent.click(likeButton)
-    //expect(mockHandler.mock.calls).toHaveLength(2)
-  })
+  test('calls updateLikes handler twice when like button is clicked twice', () => {
+    // Mock the updateLikes handler
+    const updateLikesMock = jest.fn();
+
+    // Render the Blog component with the mocked handler
+    const { getByText } = render(
+      <Blog
+        blog={{
+          id: 1,
+          title: 'Test Blog',
+          author: 'John Doe',
+          likes: 0,
+        }}
+        updateLikes={updateLikesMock}
+      />
+    );
+
+    // Find the like button and click it twice
+    const likeButton = getByText('like');
+    likeButton.click();
+    likeButton.click();
+
+    // Expect the updateLikes handler to be called twice
+    expect(updateLikesMock).toHaveBeenCalledTimes(2)
+  });
 })

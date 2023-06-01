@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import blogService from '../services/blogs'
 
 const BlogForm = ({ blogs, setBlogs, setPopupMessage, setShowBlogForm, user }) => {
@@ -37,8 +37,7 @@ const BlogForm = ({ blogs, setBlogs, setPopupMessage, setShowBlogForm, user }) =
       likes: newBlog.likes,
       creator: creator
     }
-
-    console.log(blogObject)
+    console.log('blog object: ', blogObject)
     blogService
       .create(blogObject)
       .then((returnedBlog) => {

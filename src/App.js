@@ -47,26 +47,45 @@ const App = () => {
     setBlogs(blogs.filter(b => b.id !== blog.id))
 
   }
-
-  const renderSortedBlogs = (blogs) => {
-    blogs.sort((a, b) => b.likes - a.likes)
-    // const registeredUser = user.username
-    return blogs.map(blog => <Blog key={blog.id} blogs={blogs} blog={blog} deleteBlog = {deleteBlog} registeredUser={user.username}
-      setPopupMessage={setPopupMessage} />
-    )
+  const updateLikes = async (id) => {
+    const res = await blogService.addLike(id)
+    setBlogs(blogs.map(blog => blog.id === id ? res : blog))
+    console.log(blogs)
+    renderSortedBlogs()
+    return res
   }
-
+  const renderSortedBlogs = () => {
+    const sortedBlogs = [...blogs].sort((a, b) => b.likes - a.likes)
+    // const registeredUser = user.username
+    return sortedBlogs.map(blog => (
+      <Blog
+        blog={blog}
+        updateLikes={updateLikes}
+        deleteBlog={deleteBlog}
+        key={blog.id}
+      />
+    ))
+  }
   const blogsList = () => (
     <div>
       <h1>blogs</h1>
       <p>{user.username} logged in</p>
       <button onClick={handleLogout}>logout</button>
       <br />
-      {showBlogForm ?
-        <BlogForm newBlog={newBlog} setNewBlog={setNewBlog} blogs={blogs} setBlogs={setBlogs}
-          setPopupMessage={setPopupMessage} setShowBlogForm={setShowBlogForm} user={user} />
-        : <button onClick={() => setShowBlogForm(true)}>new note</button>}
-      {renderSortedBlogs(blogs)}
+      {showBlogForm ? (
+        <BlogForm
+          newBlog={newBlog}
+          setNewBlog={setNewBlog}
+          blogs={blogs}
+          setBlogs={setBlogs}
+          setPopupMessage={setPopupMessage}
+          setShowBlogForm={setShowBlogForm}
+          user={user}
+        />
+      ) : (
+        <button onClick={() => setShowBlogForm(true)}>new note</button>
+      )}
+      {renderSortedBlogs()}
     </div>
   )
 

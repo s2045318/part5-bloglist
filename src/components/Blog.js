@@ -1,9 +1,9 @@
 import Togglable from  './Togglable'
-import blogService from '../services/blogs'
-import { useState } from  'react'
+//import blogService from '../services/blogs'
+//import { useState } from  'react'
 
-const Blog = ({ blog, setPopupMessage , deleteBlog }) => {
-  const [likesAmount, setLikesAmount] = useState(blog.likes)
+const Blog = ({ blog , deleteBlog, updateLikes }) => {
+  //const [likesAmount, setLikesAmount] = useState(blog.likes)
 
 
   const blogStyle = {
@@ -21,22 +21,8 @@ const Blog = ({ blog, setPopupMessage , deleteBlog }) => {
   }
 
   const handleLike = async () => {
-    try {
-      const res = await blogService.addLike(blog.id)
-      setLikesAmount(res.likes)
-    } catch (exception) {
-      console.log('error updating blog post')
-      setPopupMessage({
-        text: 'error updating blog post',
-        class: 'error'
-      })
-      setTimeout(() => {
-        setPopupMessage({
-          text: null,
-          class: ''
-        })
-      }, 5000)
-    }
+    await updateLikes(blog.id)
+    //setLikesAmount(res.likes)
   }
 
   const handleDelete = async (event) => {
@@ -60,7 +46,7 @@ const Blog = ({ blog, setPopupMessage , deleteBlog }) => {
           </div>
           <div>
             <span>likes: </span>
-            <span style={spanStyle}>{likesAmount}</span>
+            <span style={spanStyle}>{blog.likes}</span>
             <span>
               <button onClick={handleLike}>like</button>
             </span>
