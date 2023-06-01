@@ -59,9 +59,17 @@ describe('blog tests', () => {
     expect(updateLikesMock).toHaveBeenCalledTimes(2)
   })
   test('new blog created correctly', async () => {
-    const createBlog = jest.fn()
+    const create = jest.fn()
+    const setPopupMessage = jest.fn()
+    const user = { username:'root', name:'root', password:'root' }
     const sendOperationMessage = jest.fn()
-    render(<BlogForm createBlog={createBlog} sendOperationMessage={sendOperationMessage}/>)
+    render(<BlogForm 
+      createBlog={create} 
+      sendOperationMessage={sendOperationMessage}
+      user={user}
+      setPopupMessage = {setPopupMessage
+      }/>
+    )
 
     const inputTitle = screen.getByPlaceholderText('title')
     const inputAuthor = screen.getByPlaceholderText('author')
@@ -72,11 +80,11 @@ describe('blog tests', () => {
     await userEvent.type(inputAuthor, 'author')
     await userEvent.type(inputUrl, 'url')
     await userEvent.click(sendButton)
-
-    expect(createBlog.mock.calls).toHaveLength(1)
-    expect(createBlog.mock.calls[0][0].title).toBe('title')
-    expect(createBlog.mock.calls[0][0].author).toBe('author')
-    expect(createBlog.mock.calls[0][0].url).toBe('url')
+    console.log(create.mock.calls)
+    expect(create.mock.calls).toHaveLength(1)
+    expect(create.mock.calls[0][0].title).toBe('title')
+    expect(create.mock.calls[0][0].author).toBe('author')
+    expect(create.mock.calls[0][0].url).toBe('url')
 
   })
 })
