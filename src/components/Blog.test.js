@@ -3,7 +3,8 @@ import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import userEvent from '@testing-library/user-event'
 import Blog from './Blog'
-import App from '../App'
+import BlogForm from './BlogForm'
+//import App from '../App'
 
 describe('blog tests', () => {
   test('component displaying a blog renders the blogs title and author', () => {
@@ -34,7 +35,7 @@ describe('blog tests', () => {
   })
   test('calls updateLikes handler twice when like button is clicked twice', () => {
     // Mock the updateLikes handler
-    const updateLikesMock = jest.fn();
+    const updateLikesMock = jest.fn()
 
     // Render the Blog component with the mocked handler
     const { getByText } = render(
@@ -47,14 +48,35 @@ describe('blog tests', () => {
         }}
         updateLikes={updateLikesMock}
       />
-    );
+    )
 
     // Find the like button and click it twice
-    const likeButton = getByText('like');
-    likeButton.click();
-    likeButton.click();
+    const likeButton = getByText('like')
+    likeButton.click()
+    likeButton.click()
 
     // Expect the updateLikes handler to be called twice
     expect(updateLikesMock).toHaveBeenCalledTimes(2)
-  });
+  })
+  test('new blog created correctly', async () => {
+    const createBlog = jest.fn()
+    const sendOperationMessage = jest.fn()
+    render(<BlogForm createBlog={createBlog} sendOperationMessage={sendOperationMessage}/>)
+
+    const inputTitle = screen.getByPlaceholderText('title')
+    const inputAuthor = screen.getByPlaceholderText('author')
+    const inputUrl = screen.getByPlaceholderText('url')
+    const sendButton = screen.getByText('create')
+
+    await userEvent.type(inputTitle, 'title')
+    await userEvent.type(inputAuthor, 'author')
+    await userEvent.type(inputUrl, 'url')
+    await userEvent.click(sendButton)
+
+    expect(createBlog.mock.calls).toHaveLength(1)
+    expect(createBlog.mock.calls[0][0].title).toBe('title')
+    expect(createBlog.mock.calls[0][0].author).toBe('author')
+    expect(createBlog.mock.calls[0][0].url).toBe('url')
+
+  })
 })

@@ -6,7 +6,6 @@ import blogService from './services/blogs'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [newBlog, setNewBlog] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
@@ -40,7 +39,11 @@ const App = () => {
     window.localStorage.clear()
   }
 
-
+  const refreshBlogs = () => {
+    blogService.getAll().then(blogs =>
+      setBlogs( blogs )
+    )
+  }
   const deleteBlog = async ( blog ) => {
     console.log('delete')
     await blogService.deleteBlog(blog.id)
@@ -54,6 +57,11 @@ const App = () => {
     renderSortedBlogs()
     return res
   }
+  const createBlog = async (blog) => {
+    console.log(blog)
+    await blogService.create(blog)
+    refreshBlogs()
+  }
   const renderSortedBlogs = () => {
     const sortedBlogs = [...blogs].sort((a, b) => b.likes - a.likes)
     // const registeredUser = user.username
@@ -66,6 +74,7 @@ const App = () => {
       />
     ))
   }
+
   const blogsList = () => (
     <div>
       <h1>blogs</h1>
@@ -74,10 +83,7 @@ const App = () => {
       <br />
       {showBlogForm ? (
         <BlogForm
-          newBlog={newBlog}
-          setNewBlog={setNewBlog}
-          blogs={blogs}
-          setBlogs={setBlogs}
+          createBlog={createBlog}
           setPopupMessage={setPopupMessage}
           setShowBlogForm={setShowBlogForm}
           user={user}
